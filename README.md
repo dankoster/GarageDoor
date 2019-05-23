@@ -1,6 +1,10 @@
 # GarageDoor
 I made my phone open my garage door with Arduino and React Native. 
 
+[Adafruit ESP32 Feather](https://www.adafruit.com/product/3405) arduino hosts a simple web server I can talk to over local wifi   
+[Adafruit Power Relay Featherwing](https://www.adafruit.com/product/3191) lets the arduino talk to the garage door button  
+[React Native](https://facebook.github.io/react-native/) for a simple iPhone app to send http requests to the arduino
+
 It's pretty crude, but it works.  
 Improvements to come.
 
