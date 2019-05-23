@@ -1,0 +1,3 @@
+rootProject.name = 'GarageDoor'
+
+include ':app'
