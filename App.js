@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, Image, Button, View } from 'react-native';
+import { Platform, StyleSheet, Text, Image, StatusBar, TouchableOpacity, View } from 'react-native';
 
 const instructions = Platform.select({
 	ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,7 +21,7 @@ export default class App extends Component { //<Props> {
 
 	async setGpioPin(pin, enable) {
 		try {
-			let route = enable != undefined ? (enable ? 'on' : 'off') : 'toggle'
+			let route = enable == undefined ? 'toggle' : (enable ? 'on' : 'off')
 			let response = await fetch(`http://garagedoor/${route}${pin}`)
 			// let responseJson = await response.json()
 			// return responseJson
@@ -33,31 +33,26 @@ export default class App extends Component { //<Props> {
 	render() {
 		return (
 			<View style={styles.container}>
+				<StatusBar backgroundColor="black" barStyle="light-content" />
 				<View style={styles.section}>
-					<Image source={require('./gdoor.png')}></Image>
+					<Image source={require('./gdoor_black.png')}></Image>
 					<Text style={styles.instructions}>{instructions}</Text>
 				</View>
+				<View>
+					<Text style={styles.label}>Light</Text>
+					<View style={styles.horizontal}>
+						<TouchableOpacity onPress={() => this.setGpioPin(1, true)}>
+							<Text style={styles.button}>ON</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => this.setGpioPin(1, false)}>
+							<Text style={styles.button}>OFF</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
 				<View styles={styles.section}>
-					<Button
-						onPress={() => this.setGpioPin(1, true)}
-						title="LED ON"
-						color="#841584"
-						accessibilityLabel="Turn on the red LED"
-					/>
-					<Button
-						style={styles.button}
-						onPress={() => this.setGpioPin(1, false)}
-						title="LED OFF"
-						color="#841584"
-						accessibilityLabel="Turn off the red LED"
-					/>
-					<Button
-						style={styles.button}
-						onPress={() => this.setGpioPin(12)}
-						title="Garage Door"
-						color="#841584"
-						accessibilityLabel="Toggle the garage door button!"
-					/>
+					<TouchableOpacity onPress={() => this.setGpioPin(12)}>
+						<Text style={styles.button}>Garage Door</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 		);
@@ -69,17 +64,39 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-evenly',
 		alignItems: 'center',
-		backgroundColor: '#F5FCFF',
+		backgroundColor: '#000000',
 	},
 
 	section: {
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
+	horizontal: {
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+
+	label: {
+		textAlign: 'center',
+		color: 'white',
+		fontSize: 24,
+		fontWeight: 'bold',
+	},
 
 	button: {
-		borderStyle: 'solid'
+		backgroundColor: 'blue',
+		borderColor: 'white',
+		borderWidth: 1,
+		borderRadius: 12,
+		color: 'white',
+		fontSize: 24,
+		fontWeight: 'bold',
+		overflow: 'hidden',
+		padding: 12,
+		margin: 10,
+		textAlign: 'center',
 	},
+
 	welcome: {
 		fontSize: 20,
 		textAlign: 'center',
